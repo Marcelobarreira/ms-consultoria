@@ -78,22 +78,22 @@ export function AnimatedServicos() {
 
       {/* Quick Links Section */}
       <section className="py-8 bg-white border-b border-gray-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <StaggerContainer staggerDelay={0.05} className="flex flex-wrap gap-3 justify-center">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <StaggerContainer staggerDelay={0.05} className="grid grid-cols-2 md:grid-cols-3 gap-3 justify-items-center">
             {services.map((service, index) => {
               const colors = serviceColors[index % serviceColors.length]
               return (
-                <StaggerItem key={service.id}>
+                <StaggerItem key={service.id} className="w-full flex justify-center">
                   <motion.a
                     href={`#${service.id}`}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${colors.gradient} text-white text-sm font-medium shadow-md`}
+                    className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r ${colors.gradient} text-white text-sm font-medium shadow-md w-full max-w-[220px]`}
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
+                    <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold flex-shrink-0">
                       {index + 1}
                     </span>
-                    {service.title}
+                    <span className="truncate">{service.title}</span>
                   </motion.a>
                 </StaggerItem>
               )
