@@ -144,12 +144,12 @@ export function AnimatedSobre() {
               </p>
             </div>
           </FadeInUp>
-          <StaggerContainer staggerDelay={0.2} className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <StaggerContainer staggerDelay={0.2} className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
             {teamWithImages.map((member, index) => (
-              <StaggerItem key={index}>
-                <HoverScale scale={1.02}>
-                  <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <div className="flex items-start gap-4">
+              <StaggerItem key={index} className="h-full">
+                <HoverScale scale={1.02} className="h-full">
+                  <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 h-full flex flex-col">
+                    <div className="flex items-start gap-4 flex-1">
                       <motion.div
                         className="relative h-20 w-20 rounded-full overflow-hidden flex-shrink-0"
                         whileHover={{ scale: 1.1 }}
@@ -162,14 +162,14 @@ export function AnimatedSobre() {
                           className="object-cover"
                         />
                       </motion.div>
-                      <div>
+                      <div className="flex-1">
                         <h3 className="font-semibold text-primary">{member.name}</h3>
                         <p className="text-secondary text-sm mb-3">{member.role}</p>
-                        <ul className="text-gray-600 text-sm space-y-1">
+                        <ul className="text-gray-600 text-sm space-y-2">
                           {member.credentials.map((credential, i) => (
                             <li key={i} className="flex items-start gap-2">
-                              <span className="text-accent mt-1">•</span>
-                              {credential}
+                              <span className="text-accent mt-1 flex-shrink-0">•</span>
+                              <span>{credential}</span>
                             </li>
                           ))}
                         </ul>

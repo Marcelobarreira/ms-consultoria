@@ -54,7 +54,10 @@ export function ImageCarousel() {
   }, [paginate])
 
   return (
-    <section className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden bg-primary">
+    <section className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
+      {/* Background gradient fallback */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-dark to-primary-900" />
+
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={page}
@@ -87,7 +90,11 @@ export function ImageCarousel() {
             className="object-cover object-center"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/60 to-primary/80" />
+          {/* Gradient overlay - tons de verde/teal */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/85 via-primary-dark/75 to-teal-dark/65" />
+          {/* Accent decorativo */}
+          <div className="absolute bottom-0 left-0 w-1/2 h-1/3 bg-gradient-to-tr from-secondary/15 to-transparent" />
+          <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-gradient-to-bl from-cyan/15 to-transparent" />
         </motion.div>
       </AnimatePresence>
 
@@ -99,29 +106,64 @@ export function ImageCarousel() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
+          <motion.span
+            className="inline-block px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-secondary-light text-sm font-medium mb-6 border border-white/20"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            MS Consultoria
+          </motion.span>
           <motion.h1
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 drop-shadow-lg"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            Soluções em Higiene e Limpeza para Serviços de Saúde
+            Soluções em{' '}
+            <span className="bg-gradient-to-r from-secondary via-teal-light to-cyan bg-clip-text text-transparent">
+              Higiene e Limpeza
+            </span>
+            {' '}para Serviços de Saúde
           </motion.h1>
           <motion.p
-            className="text-lg md:text-xl text-white/90 drop-shadow"
+            className="text-lg md:text-xl text-white/90 drop-shadow mb-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
           >
             Consultoria especializada para melhorar a qualidade e os resultados dos serviços de limpeza e conservação.
           </motion.p>
+          <motion.div
+            className="flex flex-wrap gap-4 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+          >
+            <motion.a
+              href="#form"
+              className="px-8 py-3 rounded-full bg-gradient-to-r from-secondary to-teal text-white font-semibold shadow-lg"
+              whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(16, 185, 129, 0.3)' }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Solicitar Orçamento
+            </motion.a>
+            <motion.a
+              href="/servicos"
+              className="px-8 py-3 rounded-full bg-white/10 backdrop-blur-sm text-white font-semibold border border-white/30 hover:bg-white/20 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Nossos Serviços
+            </motion.a>
+          </motion.div>
         </motion.div>
       </div>
 
       {/* Navigation arrows */}
       <motion.button
         onClick={() => paginate(-1)}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full transition-colors z-20"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-3 rounded-full transition-colors z-20 border border-white/20"
         aria-label="Anterior"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -132,7 +174,7 @@ export function ImageCarousel() {
       </motion.button>
       <motion.button
         onClick={() => paginate(1)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full transition-colors z-20"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-3 rounded-full transition-colors z-20 border border-white/20"
         aria-label="Próximo"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -143,16 +185,18 @@ export function ImageCarousel() {
       </motion.button>
 
       {/* Dots indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
         {carouselImages.map((_, index) => (
           <motion.button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-colors ${
-              index === imageIndex ? 'bg-white' : 'bg-white/50'
+            className={`h-2 rounded-full transition-all ${
+              index === imageIndex
+                ? 'w-8 bg-gradient-to-r from-secondary to-teal'
+                : 'w-2 bg-white/50 hover:bg-white/70'
             }`}
             aria-label={`Ir para slide ${index + 1}`}
-            whileHover={{ scale: 1.3 }}
+            whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
           />
         ))}

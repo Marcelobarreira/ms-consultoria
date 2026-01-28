@@ -3,25 +3,59 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { navigation, siteConfig } from '@/lib/content'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const { scrollY } = useScroll()
+
+  // Transform values based on scroll
+  const headerHeight = useTransform(scrollY, [0, 100], [96, 64])
+  const logoScale = useTransform(scrollY, [0, 100], [1, 0.85])
+  const headerBg = useTransform(
+    scrollY,
+    [0, 50],
+    ['rgba(255, 255, 255, 0.95)', 'rgba(255, 255, 255, 0.98)']
+  )
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <motion.header
-      className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm"
+      className={`fixed top-0 left-0 right-0 z-50 transition-shadow duration-300 ${
+        isScrolled ? 'shadow-lg shadow-primary/10' : 'shadow-sm'
+      }`}
+      style={{ backgroundColor: headerBg }}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
     >
+      {/* Top accent bar */}
+      <motion.div
+        className="h-1 bg-gradient-to-r from-primary via-teal to-secondary"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      />
+
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-24 items-center justify-between">
+        <motion.div
+          className="flex items-center justify-between"
+          style={{ height: headerHeight }}
+        >
           {/* Logo */}
           <motion.div
-            whileHover={{ scale: 1.02 }}
+            style={{ scale: logoScale }}
+            whileHover={{ scale: isScrolled ? 0.9 : 1.02 }}
             transition={{ type: 'spring', stiffness: 400 }}
           >
             <Link href="/" className="flex items-center gap-2">
@@ -30,13 +64,13 @@ export function Header() {
                 alt={siteConfig.name}
                 width={240}
                 height={80}
-                className="h-12 w-auto"
+                className={`transition-all duration-300 ${isScrolled ? 'h-10' : 'h-12'} w-auto`}
               />
             </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:gap-8">
+          <div className="hidden md:flex md:items-center md:gap-6 lg:gap-8">
             {navigation.map((item, index) => (
               <motion.div
                 key={item.name}
@@ -46,10 +80,12 @@ export function Header() {
               >
                 <Link
                   href={item.href}
-                  className="text-sm font-medium text-gray-700 hover:text-primary transition-colors relative group"
+                  className={`font-medium transition-all relative group ${
+                    isScrolled ? 'text-xs lg:text-sm' : 'text-sm'
+                  } text-gray-700 hover:text-primary`}
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-secondary to-teal transition-all group-hover:w-full" />
                 </Link>
               </motion.div>
             ))}
@@ -57,22 +93,24 @@ export function Header() {
               href={`https://wa.me/${siteConfig.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-white"
+              className={`inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent to-secondary font-medium text-white transition-all ${
+                isScrolled ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'
+              }`}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4 }}
-              whileHover={{ scale: 1.05, boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}
+              whileHover={{ scale: 1.05, boxShadow: '0 4px 20px rgba(16, 185, 129, 0.4)' }}
               whileTap={{ scale: 0.95 }}
             >
-              <WhatsAppIcon className="h-4 w-4" />
-              WhatsApp
+              <WhatsAppIcon className={`${isScrolled ? 'h-3.5 w-3.5' : 'h-4 w-4'}`} />
+              <span className={isScrolled ? 'hidden lg:inline' : ''}>WhatsApp</span>
             </motion.a>
           </div>
 
           {/* Mobile menu button */}
           <motion.button
             type="button"
-            className="md:hidden p-2 text-gray-700"
+            className="md:hidden p-2 text-gray-700 hover:text-primary transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             whileTap={{ scale: 0.9 }}
           >
@@ -101,13 +139,13 @@ export function Header() {
               )}
             </AnimatePresence>
           </motion.button>
-        </div>
+        </motion.div>
 
         {/* Mobile Navigation */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              className="md:hidden py-4 border-t overflow-hidden"
+              className="md:hidden py-4 border-t border-primary/10 overflow-hidden"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -138,7 +176,7 @@ export function Header() {
                   >
                     <Link
                       href={item.href}
-                      className="text-base font-medium text-gray-700 hover:text-primary block"
+                      className="text-base font-medium text-gray-700 hover:text-primary block py-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.name}
@@ -156,7 +194,7 @@ export function Header() {
                     href={`https://wa.me/${siteConfig.whatsapp}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-4 py-3 text-base font-medium text-white w-full"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent to-secondary px-4 py-3 text-base font-medium text-white w-full"
                   >
                     <WhatsAppIcon className="h-5 w-5" />
                     WhatsApp
