@@ -2,6 +2,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { navigation, siteConfig } from '@/lib/content'
 
@@ -14,9 +15,13 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-xl font-bold text-primary">
-              {siteConfig.name}
-            </span>
+            <Image
+              src="/images/image-01.png"
+              alt={siteConfig.name}
+              width={120}
+              height={40}
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}

@@ -1,10 +1,21 @@
 // app/servicos/page.tsx
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { services, siteConfig } from '@/lib/content'
 
 export const metadata: Metadata = {
   title: 'Serviços de Consultoria em Higiene Hospitalar',
   description: 'Diagnóstico situacional, documentação técnica, certificações e dimensionamento para serviços de limpeza hospitalar.',
+}
+
+// Mapeamento de imagens para cada serviço
+const serviceImages: Record<string, string> = {
+  diagnostico: '/images/image-06.png',
+  documentos: '/images/image-07.png',
+  certificacao: '/images/image-04.png',
+  dimensionamento: '/images/image-05.png',
+  treinamentos: '/images/image-02.png',
+  implantacao: '/images/image-12.png',
 }
 
 export default function ServicosPage() {
@@ -41,8 +52,13 @@ export default function ServicosPage() {
                   <p className="text-gray-600 leading-relaxed">{service.fullDescription}</p>
                 </div>
                 <div className="flex-1 w-full">
-                  <div className="aspect-video bg-gray-100 rounded-xl flex items-center justify-center">
-                    <span className="text-gray-400">Imagem ilustrativa</span>
+                  <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
+                    <Image
+                      src={serviceImages[service.id] || '/images/image-05.png'}
+                      alt={service.title}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                 </div>
               </div>
