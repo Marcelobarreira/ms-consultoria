@@ -4,9 +4,10 @@ export const siteConfig = {
   name: 'MS Consultoria',
   description: 'Soluções em Higiene e Limpeza para Serviços de Saúde',
   url: 'https://msconsultoria.com.br',
-  whatsapp: '5511999999999', // TODO: Replace with actual number
-  email: 'contato@msconsultoria.com.br',
-  phone: '(11) 99999-9999',
+  whatsapp: '5585998425710',
+  email: 'visionsafe7@gmail.com',
+  phone: '(85) 9.9842-5710',
+  phone2: '(85) 9.9415-7892',
 }
 
 export const navigation = [

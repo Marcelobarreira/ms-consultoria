@@ -18,6 +18,11 @@ export const metadata: Metadata = {
   description: 'Consultoria especializada em limpeza e higienização hospitalar. Diagnóstico, documentação técnica e certificações de qualidade.',
   keywords: ['consultoria limpeza hospitalar', 'higienização serviços de saúde', 'consultoria higiene hospitalar', 'limpeza e conservação hospitalar'],
   authors: [{ name: siteConfig.name }],
+  icons: {
+    icon: '/images/logo.ico',
+    shortcut: '/images/logo.ico',
+    apple: '/images/logo.ico',
+  },
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
