@@ -44,6 +44,8 @@ export function ContactForm() {
     colaboradores: '',
     consent: false,
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const handleServiceToggle = (service: string) => {
     setFormData((prev) => ({
@@ -62,9 +64,40 @@ export function ContactForm() {
     setFormData({ ...formData, cnpj: maskCNPJ(e.target.value) })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
 
+    // Salvar no Airtable primeiro
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          cargo: formData.cargo,
+          phone: formData.phone,
+          empresa: formData.empresa,
+          cnpj: formData.cnpj,
+          services: formData.services,
+          colaboradores: formData.colaboradores,
+        }),
+      })
+
+      if (response.ok) {
+        setSubmitStatus('success')
+      } else {
+        console.error('Erro ao salvar no Airtable')
+        // Continua mesmo se falhar o Airtable
+      }
+    } catch (error) {
+      console.error('Erro ao salvar:', error)
+      // Continua mesmo se falhar
+    }
+
+    // Preparar e abrir WhatsApp
     const servicesText = formData.services.length > 0
       ? formData.services.join(', ')
       : 'Não especificado'
@@ -93,6 +126,8 @@ _Enviado pelo site MS Consultoria_`
 
     const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
+
+    setIsSubmitting(false)
   }
 
   return (
@@ -217,12 +252,23 @@ _Enviado pelo site MS Consultoria_`
 
           <motion.button
             type="submit"
-            className="w-full bg-gradient-to-r from-secondary via-teal to-cyan text-white font-bold py-4 px-6 rounded-xl shadow-lg"
-            whileHover={{ scale: 1.02, boxShadow: '0 20px 40px rgba(16, 185, 129, 0.3)' }}
-            whileTap={{ scale: 0.98 }}
+            disabled={isSubmitting}
+            className="w-full bg-gradient-to-r from-secondary via-teal to-cyan text-white font-bold py-4 px-6 rounded-xl shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+            whileHover={isSubmitting ? {} : { scale: 1.02, boxShadow: '0 20px 40px rgba(16, 185, 129, 0.3)' }}
+            whileTap={isSubmitting ? {} : { scale: 0.98 }}
           >
-            Solicitar uma proposta
+            {isSubmitting ? 'Enviando...' : 'Solicitar uma proposta'}
           </motion.button>
+
+          {submitStatus === 'success' && (
+            <motion.p
+              className="text-green-300 text-sm text-center"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              Dados salvos com sucesso!
+            </motion.p>
+          )}
 
           <p className="text-white/50 text-xs text-center">
             Suas informações serão utilizadas com responsabilidade.

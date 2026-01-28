@@ -54,7 +54,7 @@ export function ImageCarousel() {
   }, [paginate])
 
   return (
-    <section className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
+    <section className="relative w-full h-[520px] md:h-[500px] lg:h-[600px] overflow-hidden">
       {/* Background gradient fallback */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-dark to-primary-900" />
 
@@ -99,7 +99,7 @@ export function ImageCarousel() {
       </AnimatePresence>
 
       {/* Content overlay */}
-      <div className="absolute inset-0 flex items-center justify-center text-center px-4 sm:px-16 md:px-4 z-10 pt-16 sm:pt-0">
+      <div className="absolute inset-0 flex items-center justify-center text-center px-6 md:px-4 z-10">
         <motion.div
           className="max-w-4xl w-full"
           initial={{ opacity: 0, y: 20 }}
@@ -199,8 +199,8 @@ export function ImageCarousel() {
         </svg>
       </motion.button>
 
-      {/* Dots indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+      {/* Dots indicator - hidden on mobile/tablet */}
+      <div className="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 gap-3 z-20">
         {carouselImages.map((_, index) => (
           <motion.button
             key={index}
