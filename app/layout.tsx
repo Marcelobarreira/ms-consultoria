@@ -5,6 +5,7 @@ import './globals.css'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
+import { JsonLd } from '@/components/JsonLd'
 import { siteConfig } from '@/lib/content'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -43,6 +44,7 @@ export default function RootLayout({
         <main className="min-h-screen">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <JsonLd />
       </body>
     </html>
   )
