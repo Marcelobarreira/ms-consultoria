@@ -99,7 +99,7 @@ export function ImageCarousel() {
       </AnimatePresence>
 
       {/* Content overlay */}
-      <div className="absolute inset-0 flex items-center justify-center text-center px-4 z-10">
+      <div className="absolute inset-0 flex items-center justify-center text-center px-12 sm:px-16 md:px-4 z-10">
         <motion.div
           className="max-w-4xl"
           initial={{ opacity: 0, y: 20 }}
@@ -107,7 +107,7 @@ export function ImageCarousel() {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <motion.span
-            className="inline-block px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-secondary-light text-sm font-medium mb-6 border border-white/20"
+            className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/10 backdrop-blur-sm text-secondary-light text-xs sm:text-sm font-medium mb-4 sm:mb-6 border border-white/20"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -115,7 +115,7 @@ export function ImageCarousel() {
             MS Consultoria
           </motion.span>
           <motion.h1
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 drop-shadow-lg"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4 drop-shadow-lg leading-tight"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
@@ -127,7 +127,7 @@ export function ImageCarousel() {
             {' '}para Serviços de Saúde
           </motion.h1>
           <motion.p
-            className="text-lg md:text-xl text-white/90 drop-shadow mb-8"
+            className="text-sm sm:text-lg md:text-xl text-white/90 drop-shadow mb-6 sm:mb-8 leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
@@ -135,14 +135,14 @@ export function ImageCarousel() {
             Consultoria especializada para melhorar a qualidade e os resultados dos serviços de limpeza e conservação.
           </motion.p>
           <motion.div
-            className="flex flex-wrap gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9 }}
           >
             <motion.a
               href="#form"
-              className="px-8 py-3 rounded-full bg-gradient-to-r from-secondary to-teal text-white font-semibold shadow-lg"
+              className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-secondary to-teal text-white font-semibold shadow-lg text-sm sm:text-base"
               whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(16, 185, 129, 0.3)' }}
               whileTap={{ scale: 0.98 }}
             >
@@ -150,7 +150,7 @@ export function ImageCarousel() {
             </motion.a>
             <motion.a
               href="/servicos"
-              className="px-8 py-3 rounded-full bg-white/10 backdrop-blur-sm text-white font-semibold border border-white/30 hover:bg-white/20 transition-colors"
+              className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm text-white font-semibold border border-white/30 hover:bg-white/20 transition-colors text-sm sm:text-base"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -163,23 +163,23 @@ export function ImageCarousel() {
       {/* Navigation arrows */}
       <motion.button
         onClick={() => paginate(-1)}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-3 rounded-full transition-colors z-20 border border-white/20"
+        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-2 sm:p-3 rounded-full transition-colors z-20 border border-white/20"
         aria-label="Anterior"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </motion.button>
       <motion.button
         onClick={() => paginate(1)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-3 rounded-full transition-colors z-20 border border-white/20"
+        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-2 sm:p-3 rounded-full transition-colors z-20 border border-white/20"
         aria-label="Próximo"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </motion.button>
